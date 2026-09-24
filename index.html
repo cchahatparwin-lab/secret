@@ -1,0 +1,194 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pop the Balloons 🎈</title>
+
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(135deg, #ffd6e7, #ffeef6);
+        font-family: "Comic Sans MS", cursive;
+        text-align: center;
+    }
+
+    h1 {
+        margin-top: 25px;
+        color: #ff4f91;
+        font-size: 30px;
+    }
+
+    #game {
+        position: relative;
+        width: 100%;
+        height: 75vh;
+    }
+
+    .balloon {
+        position: absolute;
+        width: 70px;
+        height: 85px;
+        border-radius: 50% 50% 45% 45%;
+        cursor: pointer;
+        box-shadow: inset -10px -10px 15px rgba(0,0,0,0.12);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .balloon::after {
+        content: "";
+        position: absolute;
+        bottom: -12px;
+        left: 32px;
+        width: 6px;
+        height: 15px;
+        background: inherit;
+        clip-path: polygon(0 0,100% 0,50% 100%);
+    }
+
+    @keyframes float {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+
+    .pop {
+        animation: pop .25s forwards !important;
+    }
+
+    @keyframes pop {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.7);
+            opacity: 0;
+        }
+    }
+
+    #roseButton {
+        display: none;
+        margin: 20px auto;
+        padding: 14px 28px;
+        border: none;
+        border-radius: 30px;
+        background: #ff5c91;
+        color: white;
+        font-size: 20px;
+        font-family: inherit;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(255,80,140,.3);
+    }
+
+    #roseButton:hover {
+        transform: scale(1.06);
+    }
+
+    #rose {
+        display: none;
+        font-size: 100px;
+        margin-top: 20px;
+        animation: roseAppear .7s ease;
+    }
+
+    @keyframes roseAppear {
+        from {
+            transform: scale(0);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🎈 Pop All The Balloons 🎈</h1>
+
+<div id="game"></div>
+
+<button id="roseButton">🌹 Open Your Rose 😊</button>
+
+<div id="rose">🌹😊</div>
+
+<script>
+
+const game = document.getElementById("game");
+const roseButton = document.getElementById("roseButton");
+const rose = document.getElementById("rose");
+
+const colors = [
+    "#ff6b9d",
+    "#ff8fab",
+    "#ffb3c6",
+    "#c77dff",
+    "#ff70a6",
+    "#ff9f1c",
+    "#70d6ff",
+    "#8ac926",
+    "#f72585",
+    "#b8f2e6"
+];
+
+let popped = 0;
+const total = 20;
+
+for (let i = 0; i < total; i++) {
+
+    const balloon = document.createElement("div");
+
+    balloon.className = "balloon";
+
+    balloon.style.background =
+        colors[i % colors.length];
+
+    balloon.style.left =
+        Math.random() * 88 + "%";
+
+    balloon.style.top =
+        Math.random() * 82 + "%";
+
+    balloon.style.animationDelay =
+        Math.random() * 2 + "s";
+
+    balloon.addEventListener("click", function () {
+
+        if (balloon.classList.contains("pop")) return;
+
+        balloon.classList.add("pop");
+
+        popped++;
+
+        setTimeout(() => {
+
+            balloon.remove();
+
+            if (popped === total) {
+                roseButton.style.display = "block";
+            }
+
+        }, 250);
+    });
+
+    game.appendChild(balloon);
+}
+
+roseButton.addEventListener("click", () => {
+
+    roseButton.style.display = "none";
+
+    rose.style.display = "block";
+
+});
+
+</script>
+
+</body>
+</html>
+```
